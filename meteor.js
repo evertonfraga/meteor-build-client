@@ -16,6 +16,7 @@ var argPath = process.argv[2],
 
 // execute shell scripts
 var execute = function(command, name) {
+  console.log('execute', arguments);
     return new Q(function(resolve, reject) {
         spinner.start();
        console.debug('DEBUG', command[0], command, name, basePath); 
@@ -39,6 +40,7 @@ var execute = function(command, name) {
 };
 
 var deleteFolderRecursive = function(path) {
+  console.debug('deleteFolderRecursive', path);
     var files = [];
     if( fs.existsSync(path) ) {
         files = fs.readdirSync(path);
@@ -47,7 +49,6 @@ var deleteFolderRecursive = function(path) {
             if(fs.lstatSync(curPath).isDirectory()) { // recurse
                 deleteFolderRecursive(curPath);
             } else { // delete file
-                console.debug('Deleting', curPath, '...');
                 fs.unlinkSync(curPath);
                 console.debug('Deleted ', curPath);
             }
@@ -77,6 +78,7 @@ module.exports = {
         });
     },
     move: function(){
+      console.debug('move');
         return Q.try(function() {
             try {
                 _.each([
