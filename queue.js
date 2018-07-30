@@ -6,7 +6,7 @@ module.exports = function() {
   var maxLength = 0;
   
   self.progress = function(count, total) {
-    // console.log(count + ' of ' + total);
+    console.log(count + ' of ' + total);
   };
 
   self.reset = function() {

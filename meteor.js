@@ -18,7 +18,7 @@ var argPath = process.argv[2],
 var execute = function(command, name) {
     return new Q(function(resolve, reject) {
         spinner.start();
-        
+       console.debug('DEBUG', command[0], command, name, basePath); 
         spawn(command[0], command.slice(1), {
             cwd: basePath
         },function(err, stdout, stderr) {
@@ -47,11 +47,16 @@ var deleteFolderRecursive = function(path) {
             if(fs.lstatSync(curPath).isDirectory()) { // recurse
                 deleteFolderRecursive(curPath);
             } else { // delete file
+                console.debug('Deleting', curPath, '...');
                 fs.unlinkSync(curPath);
+                console.debug('Deleted ', curPath);
             }
         });
         fs.rmdirSync(path);
     }
+  else {
+  console.log('Path does not exist', path);
+  }
 };
 
 
@@ -89,7 +94,7 @@ module.exports = {
                     });
                 });
             } catch(e) {
-                // do nothing
+              throw new Error(`Trouble moving files. ${e.message}`, e);
             }            
         });
     },
